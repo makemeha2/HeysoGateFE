@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import { MenuProvider } from "./contexts/MenuContext";
+import AutoResizingTextarea from "./components/AutoResizingTextArea";
 
 
 function App() {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            document.body.classList.remove('is-preload');
+        }, 100);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        if (isMobile) document.body.classList.add('is-touch');
+    }, []);
+
 
     return (
         <MenuProvider>
@@ -172,8 +186,9 @@ function App() {
                                     <div className="field half">
                                         <input type="email" name="email" id="email" placeholder="Email" />
                                     </div>
-                                    <div className="field">
-                                        <textarea name="message" id="message" placeholder="Message"></textarea>
+                                <div className="field">
+                                    <AutoResizingTextarea placeholder="Message" />
+                                        {/* <textarea name="message" id="message" placeholder="Message"></textarea> */}
                                     </div>
                                 </div>
                                 <ul className="actions">

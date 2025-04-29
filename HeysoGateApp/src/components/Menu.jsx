@@ -40,19 +40,21 @@ function Menu() {
     }, [closeMenu]);
 
     return (
-        <nav ref={menuRef} id="menu">
-            <h2>Menu</h2>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="generic.html">About Me</a></li>
-                <li><a href="generic.html">Portfolio</a></li>
-                <li><a href="generic.html">Contract Me</a></li>
-                <li><a href="elements.html">Elements</a></li>
-            </ul>
-            {/* <a className="close" href="#menu" onClick={(e) => {
+        <nav ref={menuRef} id="menu" className={isMenuOpen ? 'visible' : ''} >
+            <div className="inner">
+                <h2>Menu</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="generic.html">About Me</a></li>
+                    <li><a href="generic.html">Portfolio</a></li>
+                    <li><a href="generic.html">Contract Me</a></li>
+                    <li><a href="elements.html">Elements</a></li>
+                </ul>
+            </div>
+            <a className="close" href="#menu" onClick={(e) => {
                 e.preventDefault();
                 closeMenu();
-            }}>Close</a> */}
+            }}>Close</a>
         </nav>
     );
 }
