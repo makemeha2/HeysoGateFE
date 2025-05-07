@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useMenu } from "../contexts/MenuContext";
+import { NavLink } from 'react-router-dom';
+import AppRoutes from "./AppRoutes";
 
 function Menu() {
     const { isMenuOpen, closeMenu } = useMenu();
@@ -44,11 +46,14 @@ function Menu() {
             <div className="inner">
                 <h2>Menu</h2>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="generic.html">About Me</a></li>
-                    <li><a href="generic.html">Portfolio</a></li>
-                    <li><a href="generic.html">Contract Me</a></li>
-                    <li><a href="elements.html">Elements</a></li>
+                    <li>
+                        <NavLink to="/Home" onClick={closeMenu}>Home</NavLink>
+                        {/* <a href="/">Home</a> */}
+                    </li>
+                    <li><NavLink to="/portfolio" onClick={closeMenu}>Portfolio</NavLink></li>
+                    <li><NavLink to="/resume" onClick={closeMenu}>Resume</NavLink></li>
+                    <li><a href="generic.html">Blog</a></li>
+                    <li><a href="elements.html">Others</a></li>
                 </ul>
             </div>
             <a className="close" href="#menu" onClick={(e) => {
