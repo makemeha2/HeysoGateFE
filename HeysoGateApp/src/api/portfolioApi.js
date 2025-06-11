@@ -1,36 +1,43 @@
-export async function fetchPortfolios() {
+export async function fetchPortfolios({ keyword = '', page = 0, size = 100 } = {}) {
     // const res = await fetch('https://jsonplaceholder.typicode.com/users');
     // if (!res.ok) throw new Error('Network response was not ok');
     // return res.json();
 
-    const dataList =
-        [
-            {
-                'title': 'AI MockData Generator',
-                'desc': 'AI를 통해 운영DB의 데이터 형태 및 구조를 파악, 안전하고 빠른 대량의 Mock데이터 세트를 구성합니다.',
-                'date': '2025-05-08',
-            },
-            {
-                'title': 'Routine Alarm',
-                'desc': '규칙적으로 해야 하는 일을 등록하면 주어진 시간에 그 일을 진행합니다.',
-                'date': '2025-05-08',
-            },
-            {
-                'title': '쇼호스트 살사 홈페이지',
-                'desc': '쇼호스트 살사의 홍보 및 일정관리 사이트 입니다.',
-                'date': '2025-05-08',
-            },
-            {
-                'title': '명언 API',
-                'desc': '키워드를 설정하면 해당 주제에 관련한 명언을 랜덤하게 API를 통해 알려줍니다.',
-                'date': '2025-05-08',
-            },
-            {
-                'title': 'AI 강화학습',
-                'desc': 'AI 강화를 통해 나만의 AI를 만들어봅시다.',
-                'date': '2025-05-08',
-            },
-        ];
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-    return dataList;
+    const params = new URLSearchParams();
+
+    if (keyword) params.append('keyword', keyword);
+    params.append('page', page);
+    params.append('size', size);
+
+    const url = `${API_BASE_URL}/portfolio?${params.toString()}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`API 호출 실패: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // 서버 success 플래그 체크 & content만 반환
+        if (result.success && result.data && Array.isArray(result.data.content)) {
+            return result.data.content;
+        } else {
+            // 서버가 에러 메시지 줄 수도 있으니 친절하게!
+            throw new Error(result.message || 'API 응답이 올바르지 않습니다.');
+        }
+    } catch (error) {
+        // 개발 단계에선 에러를 그냥 콘솔에!
+        console.error('포트폴리오 목록 fetch 실패:', error);
+        // 필요하면 빈 배열 혹은 에러 throw
+        return [];
+    }
 }

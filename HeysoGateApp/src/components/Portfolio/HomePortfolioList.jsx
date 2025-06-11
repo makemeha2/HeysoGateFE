@@ -19,7 +19,7 @@ function HomePortfolioList() {
             <a href="generic.html">
               <h2>{item.title}</h2>
               <div className="content">
-                <p>{item.desc}</p>
+                <p>{item.description}</p>
               </div>
             </a>
           </article>
